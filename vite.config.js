@@ -11,5 +11,10 @@ export default defineConfig({
       }
     },
     copyPublicDir: false,
-  }
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:8765'
+    }
+  },
 })
