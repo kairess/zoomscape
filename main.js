@@ -1,10 +1,10 @@
 import './style.css'
 
-const images = [
-  { url: '/266-1920x1080.jpg', caption: '자연의 아름다움' },
-  { url: '/277-1920x1080.jpg', caption: '도시의 불빛' },
-  { url: '/370-1920x1080.jpg', caption: '고요한 바다' },
-  { url: '/484-1920x1080.jpg', caption: '산의 정상' },
+let images = [
+  // { url: '/266-1920x1080.jpg', caption: '자연의 아름다움' },
+  // { url: '/277-1920x1080.jpg', caption: '도시의 불빛' },
+  // { url: '/370-1920x1080.jpg', caption: '고요한 바다' },
+  // { url: '/484-1920x1080.jpg', caption: '산의 정상' },
 
   // { url: 'https://picsum.photos/1920/1080?random=1', caption: '자연의 아름다움' },
   // { url: 'https://picsum.photos/1920/1080?random=2', caption: '도시의 불빛' },
@@ -19,6 +19,32 @@ let preloadedImages = {};
 const imageElement = document.getElementById('main-image');
 const captionElement = document.getElementById('caption');
 const app = document.getElementById('app');
+
+// 프로젝트
+const baseUrl = 'http://localhost:8765/';
+let projectId = null;
+
+async function loadProject() {
+    // const urlParams = new URLSearchParams(window.location.search);
+    // projectId = urlParams.get('id');
+
+    const pathSegments = window.location.pathname.split('/');
+    projectId = pathSegments[pathSegments.length - 1];
+    
+    if (projectId) {
+        const response = await fetch(`${baseUrl}/api/project/${projectId}`);
+        if (response.ok) {
+            images = await response.json();
+            console.log(images);
+            preloadNextImage(currentImageIndex);
+            setImageAndCaption();
+        } else {
+            console.error('Failed to load project');
+        }
+    }
+}
+
+loadProject();
 
 function preloadNextImage(index) {
   const nextIndex = (index + 1) % images.length;
@@ -79,5 +105,5 @@ function setImageAndCaption() {
 app.addEventListener('click', setImageAndCaption);
 
 // 초기 이미지 설정 및 다음 이미지 미리 로드
-preloadNextImage(currentImageIndex);
-setImageAndCaption();
+// preloadNextImage(currentImageIndex);
+// setImageAndCaption();

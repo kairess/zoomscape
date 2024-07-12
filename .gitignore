@@ -1,3 +1,7 @@
+backend/uploads
+backend/projects.db
+backend/static/*
+
 # Logs
 logs
 *.log
