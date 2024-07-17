@@ -25,8 +25,9 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-# init_db()
-# print('Initialized the database.')
+if not os.path.exists(app.config['DATABASE']):
+    init_db()
+    print('Initialized the database.')
 
 @app.route('/api/upload', methods=['POST'])
 def upload_files():
